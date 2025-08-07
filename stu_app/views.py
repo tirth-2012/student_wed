@@ -273,6 +273,36 @@ def addstudent(request):
         return redirect(studentlist)
     else:
         return render(request,'addstudent.html')
+    
+def editstudent(request,pk):
+    s=get_object_or_404(Student,pk=pk)
+    if request.method == 'POST':
+        s.firstname=request.POST.get('fname')
+        s.middlename=request.POST.get('mname')
+        s.lastname=request.POST.get('lname')
+        s.gender=request.POST.get('gender')
+        s.email=request.POST.get('email')
+        s.phone=request.POST.get('phone')
+        s.house_society_name=request.POST.get('address')
+        s.landmark_area=request.POST.get('address')
+        s.city=request.POST.get('city')
+        s.pin_code=request.POST.get('address')
+        s.birthday=request.POST.get('coures')
+        s.courses=request.POST.get('coures')
+        s.amount=request.POST.get('amount')
+        s.created_at=request.POST.get('admission_date')
+        if request.FILES.get('image'):
+            s.image = request.FILES.get('image')
+        s.save()
+        return redirect(studentlist)
+    else:
+        posts=Student.objects.all()
+        return render(request,'editstudent.html',{'s':s,'posts':posts})
+
+def deletestudent(request,pk):
+    s=get_object_or_404(Student,pk=pk)
+    s.delete()
+    return redirect(studentlist)
 
 @login_required(login_url='login_view')
 def studentlist(request):

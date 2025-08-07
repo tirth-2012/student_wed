@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block body %}
+{% load static %}
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Add Student Details</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="mb-3 d-flex justify-content-end">
+                    {% if s.image %}
+                        <img src="{{ s.image.url }}" alt="Profile Image" class="img-thumbnail" style="max-height: 200px; max-width: 150px;">
+                    {% else %}
+                        <p class="text-muted">No image uploaded</p>
+                    {% endif %}
+                    </div>
+                    <!-- First Name -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputName1">First Name</label>
+                            <input type="text" value="{{ s.firstname }}" name="firstname" class="form-control" id="exampleInputName1"
+                                placeholder="First Name" required>
+                        </div>
+                    </div>
+
+                    <!-- Middle Name -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Middle Name</label>
+                            <input type="text" value="{{ s.middlename }}" name="middlename" class="form-control" id="exampleInputEmail3"
+                                placeholder="Middle Name" required>
+                        </div>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Last Name</label>
+                            <input type="text" value="{{ s.lastname }}" name="lastname" class="form-control" id="exampleInputEmail3"
+                                placeholder="Last Name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Gender -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleSelectGender">Gender</label>
+                            <select class="form-select" value="{{ s.gender }}" name="gender" id="exampleSelectGender" required>
+                                <option>Choose the Gender...</option>
+                                <option value="Male" {% if s.gender == 'Male' %}selected{% endif %}>Male</option>
+                                <option value="Female" {% if s.gender == 'Female' %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Email address</label>
+                            <input type="email" value="{{ s.email }}" name="email" class="form-control" id="exampleInputEmail3"
+                                placeholder="Email" required>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Phone</label>
+                            <input type="number" value="{{ s.phone }}" name="phone" class="form-control" id="phone" placeholder="Phone"
+                                required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="row">
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputName1">House No./Society Name</label>
+                            <input type="text" value="{{ s.house_society_name }}" name="society" class="form-control" id="exampleInputName1"
+                                placeholder="House No./Society Name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Landmark/Area Name</label>
+                            <input type="text" value="{{ s.landmark_area }}" name="area" class="form-control" id="exampleInputEmail3"
+                                placeholder="Landmark/Area Name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">City Name</label>
+                            <input type="text" value="{{ s.city }}" name="city" class="form-control" id="exampleInputEmail3"
+                                placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Pin Code</label>
+                            <input type="text" value="{{ s.pin_code }}" name="pin" class="form-control" id="exampleInputEmail3"
+                                placeholder="Pin Code" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Date of Birthday</label>
+                            <input type="date" value="{{ s.birthday }}" name="birthday" class="form-control" id="date"
+                                placeholder="Date of Admission" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Courses</label>
+                            <input type="text" value="{{ s.courses }}" name="courses" class="form-control" id="exampleInputEmail3"
+                                placeholder="Courses" required>
+                        </div>
+                    </div>
+
+                    <!-- Middle Name -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputEmail3">Fees</label>
+                            <input type="number" value="{{ s.amount }}" name="amount" class="form-control" id="exampleInputEmail3"
+                                placeholder="Fees" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="">
+                    <div class="form-group">
+                        <label>File upload</label>
+                        <input type="file" value="" name="image" class="file-upload-default" required>
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled
+                                placeholder="Upload Image">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-gradient-primary py-3"
+                                    type="button">Upload</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" value="Reset" class="btn btn-secondary">Reset</button>
+                </div>
+        </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let dateInput = document.getElementById("date");
+        let today = new Date().toISOString().split("T")[0];
+        dateInput.setAttribute("max", today);
+    });
+    document.getElementById("phone").addEventListener("input", function (e) {
+        this.value = this.value.replace(/\D/g, "").slice(0, 10); // Removes non-numeric characters and limits to 10 digits
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        let dateInput = document.getElementById("date");
+        let today = new Date().toISOString().split("T")[0];
+        dateInput.setAttribute("max", today);
+    });
+</script>
+{% endblock body %}
