@@ -1,0 +1,89 @@
+    {% extends "base.html" %}
+    {% block body %}
+    {% load static %}
+
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+
+
+    <div class="col-md-12 grid-margin stretch-card mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center mb-4">Default form</h2>
+                <form class="forms-sample" method="post" action="{% url 'attendance' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" name="date" id="date" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date" class="form-label">Select Student</label>
+                                    <!-- <select id="select-state" name="student" placeholder="Select and Search student...">
+                                        <option value="">Select and Search student...</option>
+                                        {% for stu in student %}
+                                        <option value="{{ stu.id }}">{{ stu.firstname }} {{ stu.lastname }}</option>
+                                        {% endfor %}
+                                    </select> -->
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" style="width: 100%;" type="button"
+                                            data-bs-toggle="dropdown">
+                                            Choose Students
+                                        </button>
+                                        <ul class="dropdown-checkbox dropdown-menu">
+                                            {% for stu in student %}
+                                            <li>
+                                                <label class="dropdown-item text-dark">
+                                                    <input type="checkbox" name="student" value="{{ stu.id }}"
+                                                        onchange="updateSelected()">
+                                                    {{ stu.firstname }} {{ stu.lastname }}
+                                                </label>
+                                            </li>
+                                            {% empty %}
+                                            <li class="text-center">No students available</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p><strong>Selected Students:</strong> <span id="selected-students" class="text-primary"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-gradient-primary me-2">Submit Payment</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let dateInput = document.getElementById("date");
+            let today = new Date().toISOString().split("T")[0]; 
+            dateInput.setAttribute("max", today); 
+        });
+        new TomSelect("#select-state", {
+            create: false,  
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+        function updateSelected() {
+                let selectedNames = [];
+                document.querySelectorAll('input[name="student"]:checked').forEach((checkbox) => {
+                    selectedNames.push(checkbox.parentElement.textContent.trim());
+                });
+                document.getElementById("selected-students").innerText = selectedNames.join(", ");
+            }
+    </script>
+    {% endblock body %}

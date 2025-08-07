@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Purple Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/ti-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.addons.css' %}">
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left p-5">
+                <div class="brand-logo">
+                  <img src="{% static 'assets/images/logo.svg' %}" alt="logo">
+                </div>
+
+                {% if otp_stage %}
+                    <h4>Enter OTP</h4>
+                    <h6 class="font-weight-light">We have sent a 6-digit OTP to your email.</h6>
+                {% else %}
+                    <h4>Hello! let's get started</h4>
+                    <h6 class="font-weight-light">Sign in to continue.</h6>
+                {% endif %}
+
+                <form class="pt-3" method="POST">
+                  {% csrf_token %}
+
+                  {% if otp_stage %}
+                      <!-- OTP Verification Form -->
+                      <div class="form-group">
+                        <input type="text" name="otp" class="form-control form-control-lg" placeholder="Enter OTP" required>
+                      </div>
+                      <div class="d-grid mt-3 gap-2">
+                        <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">Verify OTP</button>
+                      </div>
+                  {% else %}
+                      <!-- Username & Password Form -->
+                      <div class="form-group">
+                        <input type="text" name="username" class="form-control form-control-lg" placeholder="Username" required>
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" required>
+                      </div>
+                      <div class="d-grid mt-3 gap-2">
+                        <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">LOG IN</button>
+                      </div>
+                  {% endif %}
+                </form>
+
+                <!-- Show messages -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info mt-3">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- plugins:js -->
+    <script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'assets/js/off-canvas.js' %}"></script>
+    <script src="{% static 'assets/js/misc.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+    <script src="{% static 'assets/js/todolist.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.cookie.js' %}"></script>
+  </body>
+</html>

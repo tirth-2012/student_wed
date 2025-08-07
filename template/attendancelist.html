@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block body %}
+{% load static %}
+
+<style>
+  .P {
+    background-color: #c8e6c9 !important;
+  }
+
+  .A {
+    background-color: #ffcdd2 !important;
+  }
+
+  .table td,
+  .table th {
+    text-align: center;
+    vertical-align: middle;
+  }
+</style>
+<h2 class="text-center mb-4">Attendance List</h2>
+
+<form method="GET" class="text-center">
+  <div class="row">
+    <div class="col-md-6 text-start">
+      <label for="start_date" class="form-label">Start Date:</label>
+      <input type="date" name="start_date" value="{{ request.GET.start_date }}" id="start_date"
+        class="form-control fs-6">
+    </div>
+    <div class="col-md-6 text-start">
+      <label for="end_date" class="form-label">End Date:</label>
+      <input type="date" name="end_date" value="{{ request.GET.end_date }}" id="end_date" class="form-control fs-6">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-5">Generate Report</button>
+</form>
+<div class="text-center mt-3">
+  <a href="/attendance" class="text-center">
+    <button type="submit" class="btn btn-danger mb-5">Take Attendance</button>
+  </a>
+</div>
+<div class="container">
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Student Name</th>
+          {% for date in date_list %}
+          <th>{{ date|date:"M d" }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for student, row in attendance_matrix %}
+        <tr>
+          <td class="text-start">{{ student.firstname }} {{ student.lastname }}</td>
+          {% for status in row %}
+          <td class="{{ status }}">{{ status }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- <style>
+  .attendance-table-container {
+    overflow-x: auto;
+  }
+
+  table.attendance-table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px 12px;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #ccc;
+  }
+
+  .attendance-table th.sticky,
+  .attendance-table td.sticky {
+    position: sticky;
+    left: 0;
+    background: #fff;
+    z-index: 1;
+    text-align: left;
+  }
+
+  /* Optional styling for P / A cells */
+  td.P {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  td.A {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+</style>
+
+<div class="attendance-table-container">
+  <table class="attendance-table">
+    <thead>
+      <tr>
+        <th class="sticky">Student Name</th>
+        {% for date in date_list %}
+          <th>{{ date|date:"d M" }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for student, row in attendance_matrix %}
+      <tr>
+        <td class="sticky">{{ student.firstname }} {{ student.lastname }}</td>
+        {% for status in row %}
+        <td class="{{ status }}">{{ status }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div> -->
+{% endblock body %}

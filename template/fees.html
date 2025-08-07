@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block body %}
+{% load static %}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0-rc.4/dist/js/tom-select.complete.min.js"></script>
+
+
+<div class="col-md-6 grid-margin stretch-card mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Default form</h2>
+            <form class="forms-sample" method="post" action="{% url 'fees' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Student name</label>
+                    <select id="select-state" name="student" placeholder="Select and Search student..." required>
+                        <option value="">Select and Search student...</option>
+                        {% for stu in student %}
+                        <option value="{{ stu.id }}">{{ stu.firstname }} {{ stu.lastname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Pay Amount</label>
+                    <input type="number" name="amount" class="form-control" placeholder="Pay Amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Pay Date</label>
+                    <input type="date" name="date" id="date" class="form-control" placeholder="Pay Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputConfirmPassword1">Take By Amount</label>
+                    <input type="text" name="take" class="form-control" placeholder="Take By Amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputConfirmPassword1">Payment Method</label>
+                    <select name="method" id="payment_method" class="form-select" required>
+                        <option value="Cash">Cash</option>
+                        <option value="Card">Card</option>
+                        <option value="Online">Online</option>
+                    </select>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+            let dateInput = document.getElementById("date");
+            let today = new Date().toISOString().split("T")[0]; 
+            dateInput.setAttribute("max", today); 
+        });
+    new TomSelect("#select-state", {
+        create: false,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+</script>
+{% endblock body %}
